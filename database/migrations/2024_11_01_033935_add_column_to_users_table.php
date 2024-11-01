@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['Admin', 'Dosen', 'Mahasiswa'])->default('Mahasiswa')->after('email');
-            $table->string('identity')->after('role')->unique();
+            $table->dropColumn('email');
         });
     }
 
@@ -26,8 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::table('users', function (Blueprint $table) {});
     }
 };

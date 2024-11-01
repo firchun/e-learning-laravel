@@ -42,4 +42,8 @@ class LoginController extends Controller
         session()->flash('success', 'Anda berhasil login!');
         return $this->redirectTo;
     }
+    public function username()
+    {
+        return 'identity';
+    }
 }

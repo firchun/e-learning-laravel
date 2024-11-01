@@ -90,10 +90,8 @@
 <div class="left-side-bar">
     <div class="brand-logo">
         <a href="{{ route('home') }}">
-            <img src="{{ asset('backend_theme') }}/vendors/images/deskapp-logo.svg" alt=""
-                class="dark-logo" />
-            <img src="{{ asset('backend_theme') }}/vendors/images/deskapp-logo-white.svg" alt=""
-                class="light-logo" />
+            <img src="{{ asset('img/') }}/logo.png" alt="" class="dark-logo" />
+            <img src="{{ asset('img/') }}/logo.png" alt="" class="light-logo" />
         </a>
         <div class="close-sidebar" data-toggle="left-sidebar-close">
             <i class="ion-close-round"></i>
@@ -105,13 +103,15 @@
                 <li>
                     <a href="{{ route('home') }}"
                         class="dropdown-toggle no-arrow {{ request()->is('home') ? 'active' : '' }}">
-                        <span class="micon bi bi-house"></span><span class="mtext">Dashboard</span>
+                        <span class="micon bi bi-house"></span><span class="mtext">Dashboard
+                            {{ Auth::user()->role }}</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('customers') }}"
-                        class="dropdown-toggle no-arrow {{ request()->is('customers*') ? 'active' : '' }}">
-                        <span class="micon bi bi-person"></span><span class="mtext">Customers</span>
+                    <a href="{{ route('matkul') }}"
+                        class="dropdown-toggle no-arrow {{ request()->is('matkul') ? 'active' : '' }}">
+                        <span class="micon bi bi-book"></span><span class="mtext">Mata Kuliah
+                        </span>
                     </a>
                 </li>
                 <li class="dropdown">
@@ -121,10 +121,8 @@
                     <ul class="submenu">
                         <li><a href="{{ route('users') }}"
                                 class="{{ request()->is('users') ? 'active' : '' }}">Pengguna</a></li>
-
                     </ul>
                 </li>
-
                 <li>
                     <a href="{{ url('/profile') }}"
                         class="dropdown-toggle no-arrow {{ request()->is('profile*') ? 'active' : '' }}">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
 
-Auth::routes();
+Auth::routes(['reset' => false]);
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -36,6 +35,12 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/customers-datatable', [CustomerController::class, 'getCustomersDataTable']);
 });
 Route::middleware(['auth:web', 'role:Admin'])->group(function () {
+    //matkul managemen
+    Route::get('/matkul', [MatkulController::class, 'index'])->name('matkul');
+    Route::post('/matkul/store',  [MatkulController::class, 'store'])->name('matkul.store');
+    Route::get('/matkul/edit/{id}',  [MatkulController::class, 'edit'])->name('matkul.edit');
+    Route::delete('/matkul/delete/{id}',  [MatkulController::class, 'destroy'])->name('matkul.delete');
+    Route::get('/matkul-datatable', [MatkulController::class, 'getMatkulDataTable']);
     //user managemen
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::post('/users/store',  [UserController::class, 'store'])->name('users.store');

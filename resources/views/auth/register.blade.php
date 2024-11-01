@@ -17,11 +17,11 @@
                             <h2 class="text-center text-primary">Register To {{ env('APP_NAME') }}</h2>
                         </div>
                         <div class="form-group ">
-                            <label class="col-form-label">Email Address*</label>
+                            <label class="col-form-label">NPM*</label>
                             <div class="">
-                                <input type="email" class="form-control" name="email" required />
+                                <input type="number" class="form-control" name="identity" required />
                             </div>
-                            @error('email')
+                            @error('identity')
                                 <span class="text-danger" role="alert">
                                     <small>{{ $message }}</small>
                                 </span>

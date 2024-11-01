@@ -38,13 +38,13 @@
                         </div>
                     </div> --}}
                     <div class="input-group custom">
-                        <input type="email" class="form-control form-control-lg" placeholder="Email address"
-                            name="email" required />
+                        <input type="number" class="form-control form-control-lg" placeholder="NPM/NIDN/NIP"
+                            name="identity" required />
                         <div class="input-group-append custom">
                             <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
                         </div>
                     </div>
-                    @error('email')
+                    @error('identity')
                         <span class="text-danger" role="alert">
                             <small>{{ $message }}</small>
                         </span>
@@ -69,11 +69,7 @@
                                 <label class="custom-control-label" for="remember">Remember</label>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="forgot-password">
-                                <a href="{{ route('password.request') }}">Forgot Password</a>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
