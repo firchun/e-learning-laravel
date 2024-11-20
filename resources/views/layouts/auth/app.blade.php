@@ -97,8 +97,9 @@
             </div>
         </div>
     </div>
-    <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
-        <div class="container">
+    <div
+        class=" @if (request()->is('login') || request()->is('register')) login-wrap @endif d-flex align-items-center flex-wrap justify-content-center">
+        <div class="container ">
             @yield('content')
         </div>
     </div>
@@ -114,7 +115,7 @@
     <script src="{{ asset('backend_theme/') }}/vendors/scripts/layout-settings.js"></script>
     <script src="{{ asset('backend_theme/') }}/src/plugins/jquery-steps/jquery.steps.js"></script>
     {{-- <script src="{{ asset('backend_theme/') }}/vendors/scripts/steps-setting.js"></script> --}}
-
+    @stack('js')
 
 </body>
 

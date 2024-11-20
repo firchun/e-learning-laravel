@@ -15,22 +15,15 @@
                         <input type="text" class="form-control" id="formUserName" name="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="formUserEmail" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="formUserEmail" name="email" required>
+                        <label for="formUserEmail" class="form-label">NIP</label>
+                        <input type="email" class="form-control" id="formUserIdentity" name="identity" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="formUserRole" class="form-label">Role</label>
-                        <select class="form-control" id="formUserRole" name="role">
-                            <option value="User">User</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Operator">Operator</option>
-                        </select>
-                    </div>
+                    <input type="hidden" name="role" value="{{ $role }}">
 
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="saveUserBtn">Save</button>
             </div>
         </div>
@@ -41,7 +34,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="userModalLabel">User Form</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Form for Create and Edit -->
@@ -51,21 +44,14 @@
                         <input type="text" class="form-control" id="formUserName" name="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="formUserEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="formUserEmail" name="email" required>
+                        <label for="formUserEmail" class="form-label">NIP</label>
+                        <input type="email" class="form-control" id="formUserIdentity" name="identity" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="formUserRole" class="form-label">Role</label>
-                        <select class="form-control" id="formUserRole" name="role">
-                            <option value="User">User</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Operator">Operator</option>
-                        </select>
-                    </div>
+                    <input type="hidden" name="role" value="{{ $role }}">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="createUserBtn">Save</button>
             </div>
         </div>

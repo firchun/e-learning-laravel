@@ -1,71 +1,126 @@
-<!-- Modal for Create and Edit -->
-<div class="modal fade" id="customersModal" tabindex="-1" aria-labelledby="customersModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userModalLabel">User Form</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    ×
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for Create and Edit -->
-                <form id="userForm">
-                    <input type="hidden" id="formCustomerId" name="id">
+<div class="modal fade" id="create" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form id="create-form">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Mata Kuliah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Nama Mata Kuliah</label>
-                        <input type="text" class="form-control" id="formNamaMatkul" name="nama_matkul" required>
+                        <label for="name" class="form-label">Nama Mata Kuliah</label>
+                        <input type="text" class="form-control" id="nama_matkul" name="nama_matkul" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Kode Mata Kuliah</label>
-                        <input type="text" class="form-control" id="formKodeMatkul" name="kode_matkul" required>
+                        <label for="name" class="form-label">SKS</label>
+                        <input type="text" class="form-control" id="sks_matkul" name="sks_matkul" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jumlah SKS Mata Kuliah</label>
-                        <input type="number" class="form-control" id="formSksMatkul" name="sks_matkul" required>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" id="save-matkul" class="btn btn-primary">Simpan</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveCustomerBtn">Save</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
-<div class="modal fade" id="create" tabindex="-1" aria-labelledby="customersModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form id="edit-form">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Mata Kuliah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama Mata Kuliah</label>
+                        <input type="text" class="form-control" id="nama_matkul" name="nama_matkul" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">SKS</label>
+                        <input type="text" class="form-control" id="sks_matkul" name="sks_matkul" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" id="update-matkul" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form id="edit-form">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Mata Kuliah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama Mata Kuliah</label>
+                        <input type="text" class="form-control" id="nama_matkul" name="nama_matkul" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">SKS</label>
+                        <input type="text" class="form-control" id="sks_matkul" name="sks_matkul" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" id="update-matkul" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="dosen-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userModalLabel">Tambah Mata Kuliah</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    ×
-                </button>
+                <h5 class="modal-title">Dosen Mata Kuliah</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <!-- Form for Create and Edit -->
-                <form id="createUserForm">
+                <form id="dosen-form">
+                    @csrf
                     <div class="mb-3">
-                        <label class="form-label">Nama Mata Kuliah</label>
-                        <input type="text" class="form-control" id="formCreateNamaMatkul" name="nama_matkul"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kode Mata Kuliah</label>
-                        <input type="text" class="form-control" id="formCreateKodeMatkul" name="kode_matkul"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jumlah SKS Mata Kuliah</label>
-                        <input type="number" class="form-control" id="formCreateSksMatkul" name="sks_matkul" required>
+                        <input type="hidden" name="id_matkul" id="id_matkul">
+                        <div class="input-group">
+                            <select name="id_user" class="form-control mx-3">
+                                @foreach (App\Models\User::where('role', 'Dosen')->get() as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->name }} - {{ $item->identity }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button class="btn btn-primary" type="button" id="save-dosen">Tambah</button>
+                        </div>
                     </div>
                 </form>
+                <table class="table table-striped" id="datatable-dosen" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Nip</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="createCustomerBtn">
-                    <i class="bi bi-floppy2"></i>Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>
+
     </div>
 </div>

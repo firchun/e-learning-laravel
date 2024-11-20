@@ -7,16 +7,17 @@
             <button class="btn btn-secondary refresh btn-default" type="button">
                 <span>
                     <i class="bi bi-arrow-clockwise me-sm-1"> </i>
-                    <span class="d-none d-sm-inline-block"></span>
+                    <span class="d-none d-sm-inline-block">Refresh Data</span>
                 </span>
             </button>
-            <button class="btn btn-secondary create-new btn-primary" type="button" data-bs-toggle="modal"
-                data-bs-target="#create">
-                <span>
-                    <i class="bi bi-plus me-sm-1"> </i>
-                    <span class="d-none d-sm-inline-block">Tambah Data</span>
-                </span>
-            </button>
+            @if ($role != 'Mahasiswa')
+                <button class="btn  create-new btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#create">
+                    <span>
+                        <i class="bi bi-plus me-sm-1"> </i>
+                        <span class="d-none d-sm-inline-block">Tambah Data</span>
+                    </span>
+                </button>
+            @endif
         </div>
     </div>
     <div class="row justify-content-center">
@@ -31,7 +32,7 @@
                             <th>ID</th>
                             <th>Avatar</th>
                             <th>Name</th>
-                            <th>Email</th>
+                            <th>NIP/NPM/NIM</th>
                             <th>Role</th>
                             <th>Action</th>
                         </tr>
@@ -42,7 +43,7 @@
                             <th>ID</th>
                             <th>Avatar</th>
                             <th>Name</th>
-                            <th>Email</th>
+                            <th>NIP/NPM/NIM</th>
                             <th>Role</th>
                             <th>Action</th>
                         </tr>

@@ -67,12 +67,17 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group  mb-3">
-                                        <label class="form-control-label" for="email">Email address<span
-                                                class="small text-danger">*</span></label>
-                                        <input type="email" id="email"
-                                            class="form-control  @error('email') is-invalid @enderror" name="email"
-                                            placeholder="example@example.com"
-                                            value="{{ old('email', Auth::user()->email) }}">
+                                        <label class="form-control-label" for="email">
+                                            @if (Auth::user()->role == 'Mahasiswa')
+                                                NIM/NPM
+                                            @else
+                                                NIP
+                                            @endif
+                                            <span class="small text-danger">*</span>
+                                        </label>
+                                        <input type="string" id="identity"
+                                            class="form-control  @error('identity') is-invalid @enderror" name="identity"
+                                            value="{{ old('identity', Auth::user()->identity) }}">
                                     </div>
                                 </div>
                             </div>

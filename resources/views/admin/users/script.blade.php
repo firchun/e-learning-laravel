@@ -3,9 +3,9 @@
         $(function() {
             $('#datatable-users').DataTable({
                 processing: true,
-                serverSide: true,
-                responsive: true,
-                ajax: '{{ url('users-datatable') }}',
+                serverSide: false,
+                responsive: false,
+                ajax: '{{ url('users-datatable', $role) }}',
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -19,8 +19,8 @@
                         name: 'name'
                     },
                     {
-                        data: 'email',
-                        name: 'email'
+                        data: 'identity',
+                        name: 'identity'
                     },
 
                     {
@@ -47,7 +47,7 @@
                         $('#UsersModalLabel').text('Edit User');
                         $('#formUserId').val(response.id);
                         $('#formUserName').val(response.name);
-                        $('#formUserEmail').val(response.email);
+                        $('#formUserIdentity').val(response.identity);
                         $('#UsersModal').modal('show');
                     },
                     error: function(xhr) {

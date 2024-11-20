@@ -17,14 +17,30 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'Users',
-            'users' => User::all()
+            'title' => 'Administrator',
+            'role' => 'Admin'
         ];
         return view('admin.users.index', $data);
     }
-    public function getUsersDataTable()
+    public function dosen()
     {
-        $users = User::select(['id', 'name', 'email', 'created_at', 'updated_at', 'role', 'avatar'])->orderByDesc('id');
+        $data = [
+            'title' => 'Dosen',
+            'role' => 'Dosen'
+        ];
+        return view('admin.users.index', $data);
+    }
+    public function mahasiswa()
+    {
+        $data = [
+            'title' => 'Mahasiswa',
+            'role' => 'Mahasiswa'
+        ];
+        return view('admin.users.index', $data);
+    }
+    public function getUsersDataTable($role)
+    {
+        $users = User::where('role', $role)->orderByDesc('id');
 
         return Datatables::of($users)
             ->addColumn('avatar', function ($user) {
@@ -45,12 +61,12 @@ class UserController extends Controller
         if ($request->filled('id')) {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255'],
+                'identity' => ['required', 'string', 'max:255'],
             ]);
         } else {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'identity' => ['required', 'string', 'max:255', 'unique:users'],
             ]);
         }
 
@@ -58,7 +74,7 @@ class UserController extends Controller
         if ($request->filled('id')) {
             $usersData = [
                 'name' => $request->input('name'),
-                'email' => $request->input('email'),
+                'identity' => $request->input('identity'),
                 'role' => $request->input('role'),
             ];
             $user = User::find($request->input('id'));
@@ -71,7 +87,7 @@ class UserController extends Controller
         } else {
             $usersData = [
                 'name' => $request->input('name'),
-                'email' => $request->input('email'),
+                'identity' => $request->input('identity'),
                 'role' => $request->input('role'),
                 'password' => Hash::make('password'),
             ];

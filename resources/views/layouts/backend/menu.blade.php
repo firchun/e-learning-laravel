@@ -114,15 +114,23 @@
                         </span>
                     </a>
                 </li>
-                <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle">
-                        <span class="micon bi bi-people"></span><span class="mtext">Pengguna</span>
-                    </a>
-                    <ul class="submenu">
-                        <li><a href="{{ route('users') }}"
-                                class="{{ request()->is('users') ? 'active' : '' }}">Pengguna</a></li>
-                    </ul>
-                </li>
+                @if (Auth::user()->role == 'Admin')
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon bi bi-people"></span><span class="mtext">Pengguna</span>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="{{ route('users') }}"
+                                    class="{{ request()->is('users') ? 'active' : '' }}">Admin</a>
+                                <a href="{{ route('dosen') }}"
+                                    class="{{ request()->is('dosen') ? 'active' : '' }}">Dosen</a>
+                                <a href="{{ route('mahasiswa') }}"
+                                    class="{{ request()->is('mahasiswa') ? 'active' : '' }}">Mahasiswa</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ url('/profile') }}"
                         class="dropdown-toggle no-arrow {{ request()->is('profile*') ? 'active' : '' }}">
