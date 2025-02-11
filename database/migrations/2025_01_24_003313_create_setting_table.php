@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['Admin', 'Dosen', 'Mahasiswa'])->default('Mahasiswa')->after('email');
-            $table->bigInteger('identity')->after('role')->unique();
+        Schema::create('setting', function (Blueprint $table) {
+            $table->id();
+            $table->string('jumlah_point')->default(5);
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('setting');
     }
 };

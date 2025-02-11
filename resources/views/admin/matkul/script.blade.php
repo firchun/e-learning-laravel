@@ -30,13 +30,17 @@
                                         <img src="{{ asset('backend_theme/') }}/vendors/images/product-img3.jpg" alt="">
                                     </div>
                                     <div class="product-caption">
-                                        <h4><a href="#">${matkul.nama_matkul}</a></h4>
+                                        <h4><a href="#">${matkul.nama_matkul}</a><br><small>Pengampu : ${matkul.nama_dosen}</small></h4>
                                         @if (Auth::user()->role == 'Admin')
                                             <a href="#" class="btn btn-outline-success edit-dosen" data-id="${matkul.id}"><i class="bi bi-people"></i> Dosen</a>
                                             <a href="#" class="btn btn-outline-primary edit-matkul" data-id="${matkul.id}"><i class="bi bi-pencil-square"></i> Edit</a>
                                             <a href="#" class="btn btn-outline-danger delete-matkul" data-id="${matkul.id}"><i class="bi bi-trash bi-lg"></i></a>
+                                        @elseif (Auth::user()->role == 'Dosen')
+                                            <a href="{{ url('/matkul/materi') }}/${matkul.kode_matkul}" class="btn btn-outline-success " ><i class="bi bi-book"></i> Buat materi</a>
+                                            <a href="{{ url('/matkul/daftar-isi') }}/${matkul.kode_matkul}" class="btn btn-success " ><i class="bi bi-book"></i> Buka materi</a>
                                         @else
-                                            <a href="{{ url('/matkul/materi') }}/${matkul.kode_matkul}" class="btn btn-outline-success " ><i class="bi bi-book"></i> Buka materi</a>
+                                            <a href="#" class="btn btn-outline-danger batalkan-matkul" data-id="${matkul.id}">Batalkan</a>
+                                            <a href="{{ url('/matkul/daftar-isi') }}/${matkul.kode_matkul}" class="btn btn-success " ><i class="bi bi-book"></i> Buka materi</a>
                                         @endif
                                     </div>
                                 </div>
@@ -72,6 +76,30 @@
                     },
                     error: function() {
                         $('#save-matkul').html('Simpan');
+                        alert('Terjadi kesalahan. Silakan coba lagi.');
+                    }
+                });
+            });
+            // Tambah Mata Kuliah mahasiswa
+            $('#pilih-matkul').on('click', function() {
+                let formData = $('#pilih-matkul-form').serialize();
+                $('#pilih-matkul').html(loadingSpinner);
+                $.ajax({
+                    url: '/api/matkul/store-matkul-mahasiswa',
+                    type: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#pilih-matkul').html('Simpan');
+                        $('#pilih_matkul').modal('hide');
+                        loadMatkul();
+                        alert(response.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                        $('#pilih-matkul').html('Simpan');
                         alert('Terjadi kesalahan. Silakan coba lagi.');
                     }
                 });
@@ -201,6 +229,27 @@
                 $(this).html(loadingSpinner);
                 $.ajax({
                     url: `/api/matkul/${id}/delete`,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function() {
+                        loadMatkul();
+                    },
+                    error: function() {
+                        loadMatkul();
+                        $(this).html('<i class="bi bi-trash bi-lg"></i>');
+                        alert('Terjadi kesalahan. Silakan coba lagi.');
+                    }
+                });
+            });
+            // Hapus Mata Kuliah mahasiswa
+            $(document).on('click', '.batalkan-matkul', function() {
+                if (!confirm('Apakah Anda yakin ingin membatalkan mata kuliah ini?')) return;
+                let id = $(this).data('id');
+                $(this).html(loadingSpinner);
+                $.ajax({
+                    url: `/api/matkul/${id}/delete-mahasiswa`,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

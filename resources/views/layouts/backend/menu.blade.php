@@ -109,11 +109,27 @@
                 </li>
                 <li>
                     <a href="{{ route('matkul') }}"
-                        class="dropdown-toggle no-arrow {{ request()->is('matkul') ? 'active' : '' }}">
+                        class="dropdown-toggle no-arrow {{ request()->is('matkul*') ? 'active' : '' }}">
                         <span class="micon bi bi-book"></span><span class="mtext">Mata Kuliah
                         </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('riwayat-belajar') }}"
+                        class="dropdown-toggle no-arrow {{ request()->is('riwayat-belajar*') ? 'active' : '' }}">
+                        <span class="micon bi bi-journal"></span><span class="mtext">Riwayat Belajar
+                        </span>
+                    </a>
+                </li>
+                @if (Auth::user()->role == 'Dosen')
+                    <li>
+                        <a href="{{ route('point') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('point*') ? 'active' : '' }}">
+                            <span class="micon bi bi-star"></span><span class="mtext">Point Mahasiswa
+                            </span>
+                        </a>
+                    </li>
+                @endif
                 @if (Auth::user()->role == 'Admin')
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">

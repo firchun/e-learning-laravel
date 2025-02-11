@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['Admin', 'Dosen', 'Mahasiswa'])->default('Mahasiswa')->after('email');
-            $table->bigInteger('identity')->after('role')->unique();
+        Schema::create('point', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->integer('point');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('point');
     }
 };

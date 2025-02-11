@@ -25,6 +25,34 @@
         </form>
     </div>
 </div>
+<div class="modal fade" id="pilih_matkul" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form id="pilih-matkul-form">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Mata Kuliah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Mata Kuliah</label>
+                        <select class="form-control" name="id_matkul">
+                            @foreach (App\Models\Matkul::all() as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama_matkul }} - {{ $item->kode_matkul }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" id="pilih-matkul" class="btn btn-primary">Pilih</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <form id="edit-form">

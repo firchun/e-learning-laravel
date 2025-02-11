@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matkul;
+use App\Models\MatkulMahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -11,19 +12,13 @@ class MatkulController extends Controller
 {
     public function index()
     {
+
         $data = [
             'title' => 'Mata Kuliah',
         ];
         return view('admin.matkul.index', $data);
     }
-    public function materi($kode_matkul)
-    {
-        $matkul = Matkul::where('kode_matkul', $kode_matkul)->first();
-        $data = [
-            'title' => 'Matakuliah : ' . $matkul->nama_matkul,
-        ];
-        return view('admin.matkul.materi', $data);
-    }
+
     public function getAll(Request $request)
     {
         $search = $request->query('search');
@@ -36,7 +31,19 @@ class MatkulController extends Controller
                 ->select('matkul.*');
         }
 
+        // Check if the user is authenticated and their role is 'Mahasiswa'
+        if (Auth::check() && Auth::user()->role == 'Mahasiswa') {
+            $matkul->join('matkul_mahasiswa', 'matkul.id', '=', 'matkul_mahasiswa.id_matkul')
+                ->where('matkul_mahasiswa.id_user', Auth::id())
+                ->select('matkul.*');
+        }
+
         $data = $matkul->get();
+        $data->map(function ($item) {
+            $dosenNames = $item->dosen->pluck('name')->toArray();
+            $item->nama_dosen = implode(', ', $dosenNames);
+            return $item;
+        });
 
         return response()->json($data);
     }
@@ -77,6 +84,31 @@ class MatkulController extends Controller
             'sks_matkul' => $matkul->sks_matkul,
         ]);
     }
+    public function storeMahasiswa(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'id_matkul' => 'required|string|max:255',
+        ]);
+
+        $matkul = MatkulMahasiswa::where('id_matkul', $validated['id_matkul'])->where('id_user', Auth::id())->first();
+
+        if (!$matkul) {
+            // Menambahkan data jika belum ada
+            MatkulMahasiswa::create([
+                'id_matkul' => $validated['id_matkul'],
+                'id_user' => Auth::id(),
+            ]);
+
+            return response()->json([
+                'message' => 'Berhasil menambahkan matakuliah',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Matakuliah sudah ada',
+            ]);
+        }
+    }
     function generateKodeMatkul($namaMatkul)
     {
         // Ambil dua kata pertama dari nama mata kuliah
@@ -115,5 +147,24 @@ class MatkulController extends Controller
     {
         Matkul::destroy($id);
         return response()->json(['success' => true]);
+    }
+    public function destroyMahasiswa($id)
+    {
+
+        $matkul = MatkulMahasiswa::where('id_matkul', $id)
+            ->where('id_user', Auth::id())
+            ->first();
+
+        if (!$matkul) {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan atau tidak milik pengguna.'], 404);
+        }
+        $matkul->delete();
+
+        return response()->json(['success' => true, 'message' => 'Matakuliah berhasil dihapus.']);
+    }
+    public function getMahasiswa($matkul_id)
+    {
+        $mahasiswa = MatkulMahasiswa::with(['mahasiswa'])->where('id_matkul', $matkul_id)->get();
+        return response()->json(['mahasiswa' => $mahasiswa]);
     }
 }
