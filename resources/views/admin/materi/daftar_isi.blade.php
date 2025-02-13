@@ -93,7 +93,7 @@
                                 <i class="fa fa-book"></i>
                                 Update
                                 Materi</a>
-                            <a href="{{ route('ujian.create', $matkul->kode_matkul) }}" class="btn  btn-warning">
+                            <a href="#" class="btn btn-warning" id="btnUjian" onclick="showJenisUjianModal()">
                                 <i class="fa fa-book"></i>
                                 Ujian</a>
                         @endif
@@ -129,14 +129,77 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+
+    <!-- Modal Pilih Jenis Ujian -->
+    <div class="modal fade" id="modalJenisUjian" tabindex="-1" aria-labelledby="modalJenisUjianLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalJenisUjianLabel">Pilih Jenis Ujian</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><i
+                            class="bi bi-x"></i></button>
+                </div>
+                <div class="modal-body text-center">
+                    <button type="button" class="btn btn-primary" id="btnTambahUTS"
+                        onclick="cekKetersediaanUjian('UTS')">Tambah UTS</button>
+                    <button type="button" class="btn btn-warning" id="btnTambahUAS"
+                        onclick="cekKetersediaanUjian('UAS')">Tambah UAS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form Ujian -->
+    <div class="modal fade" id="modalFormUjian" tabindex="-1" aria-labelledby="modalFormUjianLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFormUjianLabel">Tambah Ujian</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><i
+                            class="bi bi-x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formUjian">
+                        <input type="hidden" id="id_matkul" name="id_matkul" value="{{ $matkul->id }}" readonly>
+                        <input type="hidden" id="jenis_ujian" name="jenis" readonly>
+
+                        <div class="mb-3">
+                            <label for="keterangan" class="form-label">Keterangan:</label>
+                            <textarea id="keterangan" name="keterangan" class="form-control"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tanggal_ujian" class="form-label">Tanggal Ujian:</label>
+                            <input class="form-control" type="date" id="tanggal_ujian" name="tanggal_ujian" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="waktu_mulai" class="form-label">Waktu Mulai:</label>
+                            <input class="form-control" type="datetime-local" id="waktu_mulai" name="waktu_mulai"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="waktu_selesai" class="form-label">Waktu Selesai:</label>
+                            <input class="form-control" type="datetime-local" id="waktu_selesai" name="waktu_selesai"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Daftar Mahasiswa -->
     <div class="modal fade" id="modalMahasiswa" tabindex="-1" role="dialog" aria-labelledby="modalMahasiswaLabel"
         aria-hidden="true">
         <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalMahasiswaLabel">Daftar Mahasiswa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i
+                            class="bi bi-x"></i>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -185,6 +248,101 @@
                 },
                 error: function() {
                     alert('Gagal memuat data mahasiswa.');
+                }
+            });
+        });
+
+        // Tampilkan modal untuk memilih jenis ujian
+        function showJenisUjianModal() {
+            $('#modalJenisUjian').modal('show');
+        }
+
+        // Cek ketersediaan ujian sebelum menampilkan modal form ujian
+        function cekKetersediaanUjian(jenis) {
+            var matkulId = "{{ $matkul->id }}";
+            $.ajax({
+                url: '/cek-ujian/' + matkulId + '/' + jenis,
+                method: 'GET',
+                success: function(response) {
+                    if (response.tersedia) {
+                        alert('Ujian ' + jenis + ' sudah tersedia.');
+                        window.location.href = '/ujian/create/' + matkulId;
+                    } else {
+                        showUjianModal(jenis);
+                    }
+                },
+                error: function() {
+                    alert('Gagal memeriksa ketersediaan ujian.');
+                }
+            });
+        }
+
+        // Tampilkan modal ujian dengan jenis yang dipilih
+        function showUjianModal(jenis) {
+            document.getElementById('jenis_ujian').value = jenis;
+            document.getElementById('modalFormUjianLabel').innerText = `Tambah ${jenis}`;
+            $('#modalJenisUjian').modal('hide');
+            $('#modalFormUjian').modal('show');
+        }
+
+        // Submit form ujian
+        $('#formUjian').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: "{{ route('ujian.store') }}",
+                method: "POST",
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        alert('Ujian berhasil disimpan!');
+                        window.location.href = 'ujian/create/' + response.id;
+                    } else {
+                        alert('Gagal menyimpan ujian.');
+                    }
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert('Terjadi kesalahan saat menyimpan ujian.');
+                }
+            });
+        });
+
+        // Pengecekan ketersediaan ujian saat halaman dimuat
+        $(document).ready(function() {
+            var matkulId = "{{ $matkul->id }}";
+            $.ajax({
+                url: '/cek-ujian/' + matkulId + '/UTS',
+                method: 'GET',
+                success: function(response) {
+                    if (response.tersedia) {
+                        $('#btnTambahUTS').text('Buka UTS').attr('onclick',
+                            'window.location.href="/ujian/create/' + matkulId + '"');
+                    }
+                },
+                error: function() {
+                    console.error('Gagal memeriksa ketersediaan UTS.');
+                }
+            });
+
+            $.ajax({
+                url: '/cek-ujian/' + matkulId + '/UAS',
+                method: 'GET',
+                success: function(response) {
+                    if (response.tersedia) {
+                        $('#btnTambahUAS').text('Buka UAS').attr('onclick',
+                            'window.location.href="/ujian/create/' + matkulId + '"');
+                    }
+                },
+                error: function() {
+                    console.error('Gagal memeriksa ketersediaan UAS.');
                 }
             });
         });

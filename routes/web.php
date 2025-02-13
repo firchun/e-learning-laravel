@@ -61,8 +61,12 @@ Route::middleware(['auth:web'])->group(function () {
     Route::delete('/customers/delete/{id}',  [CustomerController::class, 'destroy'])->name('customers.delete');
     Route::get('/customers-datatable', [CustomerController::class, 'getCustomersDataTable']);
     //ujian
-    Route::get('ujian/create/{kode_matkul}', [UjianController::class, 'create'])->name('ujian.create');
+    Route::get('ujian/create/{id}', [UjianController::class, 'create'])->name('ujian.create');
     Route::post('ujian/store', [UjianController::class, 'store'])->name('ujian.store');
+    Route::post('ujian/store-pertanyaan', [UjianController::class, 'store_pertanyaan'])->name('ujian.store-pertanyaan');
+    Route::get('/cek-ujian/{matkulId}/{jenis}', [UjianController::class, 'cekKetersediaan'])->name('cek-ujian');
+    Route::get('/ujian/{id}/pertanyaan', [UjianController::class, 'getPertanyaan'])->name('ujian.get-pertanyaan');
+    Route::delete('/ujian/pertanyaan/{id}', [UjianController::class, 'deletePertanyaan'])->name('ujian.delete-pertanyaan');
     //tambah matakuliah mahasiswa
     Route::post('/api/matkul/store-matkul-mahasiswa', [MatkulController::class, 'storeMahasiswa']);
     Route::delete('/api/matkul/{id}/delete-mahasiswa', [MatkulController::class, 'destroyMahasiswa']);
