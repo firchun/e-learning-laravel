@@ -59,7 +59,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('/customers/store',  [CustomerController::class, 'store'])->name('customers.store');
     Route::get('/customers/edit/{id}',  [CustomerController::class, 'edit'])->name('customers.edit');
     Route::delete('/customers/delete/{id}',  [CustomerController::class, 'destroy'])->name('customers.delete');
-Route::get('/customers-datatable', [CustomerController::class, 'getCustomersDataTable']);
+    Route::get('/customers-datatable', [CustomerController::class, 'getCustomersDataTable']);
     //ujian
     Route::get('ujian/create/{id}', [UjianController::class, 'create'])->name('ujian.create');
     Route::post('ujian/store', [UjianController::class, 'store'])->name('ujian.store');
