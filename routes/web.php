@@ -59,7 +59,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('/customers/store',  [CustomerController::class, 'store'])->name('customers.store');
     Route::get('/customers/edit/{id}',  [CustomerController::class, 'edit'])->name('customers.edit');
     Route::delete('/customers/delete/{id}',  [CustomerController::class, 'destroy'])->name('customers.delete');
-    Route::get('/customers-datatable', [CustomerController::class, 'getCustomersDataTable']);
+Route::get('/customers-datatable', [CustomerController::class, 'getCustomersDataTable']);
     //ujian
     Route::get('ujian/create/{id}', [UjianController::class, 'create'])->name('ujian.create');
     Route::post('ujian/store', [UjianController::class, 'store'])->name('ujian.store');
@@ -67,6 +67,10 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/cek-ujian/{matkulId}/{jenis}', [UjianController::class, 'cekKetersediaan'])->name('cek-ujian');
     Route::get('/ujian/{id}/pertanyaan', [UjianController::class, 'getPertanyaan'])->name('ujian.get-pertanyaan');
     Route::delete('/ujian/pertanyaan/{id}', [UjianController::class, 'deletePertanyaan'])->name('ujian.delete-pertanyaan');
+    Route::get('/ujian', [UjianController::class, 'index'])->name('ujian');
+    Route::get('/ujian/{id}', [UjianController::class, 'show'])->name('ujian.show');
+    Route::post('/ujian/{id}/submit', [UjianController::class, 'submit'])->name('ujian.submit');
+    Route::get('/ujian/{id}/hasil', [UjianController::class, 'hasilUjian'])->name('ujian.result');
     //tambah matakuliah mahasiswa
     Route::post('/api/matkul/store-matkul-mahasiswa', [MatkulController::class, 'storeMahasiswa']);
     Route::delete('/api/matkul/{id}/delete-mahasiswa', [MatkulController::class, 'destroyMahasiswa']);

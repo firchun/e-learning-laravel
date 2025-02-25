@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JawabanUjian;
 use App\Models\Matkul;
 use App\Models\PertanyaanUjian;
 use App\Models\Ujian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UjianController extends Controller
 {
@@ -87,5 +89,63 @@ class UjianController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'Pertanyaan tidak ditemukan.']);
+    }
+    public function index()
+    {
+        $ujians = Ujian::all();
+        return response()->json($ujians);
+    }
+
+    public function show($id)
+    {
+        // $ujian = Ujian::with('pertanyaanUjian')->findOrFail($id);
+
+        // $waktuMulai = strtotime($ujian->waktu_mulai);
+        // $waktuSelesai = strtotime($ujian->waktu_selesai);
+        // $durasi = ($waktuSelesai - $waktuMulai) / 60; // dalam menit
+
+        // return response()->json([
+        //     'ujian' => $ujian,
+        //     'durasi' => $durasi . ' menit'
+        // ]);
+        $ujian = Ujian::with('pertanyaanUjian')->findOrFail($id);
+        return view('admin.ujian.index', ['ujian' => $ujian]);
+    }
+    public function submit(Request $request, $id_ujian)
+    {
+        $id_user = Auth::id();
+
+        foreach ($request->jawaban as $id_pertanyaan => $jawaban) {
+            $pertanyaan = PertanyaanUjian::find($id_pertanyaan);
+            $isBenar = null;
+
+            if ($pertanyaan->jenis_pertanyaan == 'pilihan_ganda') {
+                $isBenar = ($jawaban == $pertanyaan->jawaban_benar);
+            }
+
+            JawabanUjian::create([
+                'id_user' => $id_user,
+                'id_ujian' => $id_ujian,
+                'id_pertanyaan' => $id_pertanyaan,
+                'jawaban' => $jawaban,
+                'is_benar' => $isBenar,
+            ]);
+        }
+
+        return redirect()->route('ujian.result', $id_ujian)->with('success', 'Jawaban berhasil disimpan!');
+    }
+    public function hasilUjian($id_ujian)
+    {
+        $id_user = Auth::id();
+        $ujian = Ujian::findOrFail($id_ujian);
+        $jawaban = JawabanUjian::where('id_user', $id_user)
+            ->where('id_ujian', $id_ujian)
+            ->get();
+
+        $totalSoal = count($jawaban);
+        $jawabanBenar = $jawaban->where('is_benar', true)->count();
+        $nilai = $totalSoal > 0 ? ($jawabanBenar / $totalSoal) * 100 : 0;
+
+        return view('admin.ujian.hasil', compact('ujian', 'jawaban', 'nilai'));
     }
 }

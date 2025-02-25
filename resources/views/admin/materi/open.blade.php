@@ -75,17 +75,17 @@
                         return;
                     }
 
-                    materiList = response; // Simpan daftar materi
+                    materiList = response;
                     currentPage = 0;
-                    saveRiwayat(); // Reset ke halaman pertama
-                    renderMateri(); // Tampilkan halaman pertama
-                    renderTitles(); // Tampilkan semua judul materi
+                    saveRiwayat();
+                    renderMateri();
+                    renderTitles();
                 },
                 error: function(xhr) {
                     console.error(xhr.responseText);
                 },
                 complete: function() {
-                    $('#load-spinner').addClass('d-none'); // Sembunyikan spinner
+                    $('#load-spinner').addClass('d-none');
                 }
             });
         }
@@ -105,10 +105,10 @@
                 ${materi.image ? `<img src="/storage/${materi.image}" alt="${materi.judul}" class="img-fluid mb-3 rounded" style="max-height: 300px; object-fit: cover;">` : ''}
                 <p class="card-text">${materi.isi_materi}</p>
                 ${materi.file ? `<div class="mt-3">
-                                                                                                                                                    <a href="/storage/${materi.file}" class="btn btn-warning btn-sm" download>
-                                                                                                                                                        <i class="bi bi-download"></i> Download File
-                                                                                                                                                    </a>
-                                                                                                                                                </div>` : ''}
+                   <a href="/storage/${materi.file}" class="btn btn-warning btn-sm" download>
+                             <i class="bi bi-download"></i> Download File
+                      </a>
+                </div>` : ''}
             </div>
         </div>
     `;
