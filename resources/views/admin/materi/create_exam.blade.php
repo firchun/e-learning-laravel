@@ -15,7 +15,8 @@
                         class="bi bi-arrow-left"></i> Kembali</a>
                 <button type="button" id="add-question" class="btn btn-warning my-3" data-toggle="modal"
                     data-target="#questionModal"><i class="bi bi-plus"></i> Tambah Pertanyaan</button>
-                <a href="" class="btn btn-primary m-3"><i class="bi bi-monitor"></i> Preview</a>
+                <a href="{{ route('ujian.show', $ujian->id) }}" class="btn btn-primary m-3"><i class="bi bi-monitor"></i>
+                    Preview</a>
             </div>
             <div class="card">
                 <div class="card-body">
@@ -25,7 +26,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Pertanyaan</th>
-                                <th>Jenis</th> 
+                                <th>Jenis</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

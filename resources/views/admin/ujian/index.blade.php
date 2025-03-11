@@ -13,6 +13,16 @@
                     </div>
                 </div>
             </div>
+            @if (Auth::user()->role == 'Dosen')
+                <div class="col-12 mb-3 d-flex">
+                    <a href="{{ url('ujian/create', $ujian->id_matkul) }}" class="btn btn-secondary"><i
+                            class="fa fa-arrow-left">
+                        </i>
+                        Kembali</a>
+
+                    <h3 class="ml-3 text-danger"> Preview Soal</h3>
+                </div>
+            @endif
             <!-- Kolom Soal -->
             <div class="col-md-8">
                 <div class="card shadow-sm">
