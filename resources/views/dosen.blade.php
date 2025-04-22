@@ -9,7 +9,7 @@
                 <input type="text" name="search" id="search" class="form-control form-control-lg"
                     placeholder="Cari Dosen">
             </div>
-            <div class="row" id="dosen-list">
+            <div class="row justify-content-center" id="dosen-list">
                 @forelse ($dosen as $index => $item)
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm border-0 hover-shadow" style="transition: 0.3s;">
@@ -70,7 +70,7 @@
                         $('#dosen-list').html(html);
                     },
                     error: function() {
-                        alert('Gagal memuat data dosen.');
+                        console.log('Gagal memuat data dosen.');
                     }
                 });
             });

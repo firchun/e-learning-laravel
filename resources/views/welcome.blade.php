@@ -32,7 +32,7 @@
                         <input type="text" name="search" id="search"
                             class="form-control form-control-lg  border border-danger" placeholder="Cari Matakuliah">
                     </div>
-                    <div class="row" id="matkul-list">
+                    <div class="row justify-content-center" id="matkul-list">
                         {{-- Dynamic Item List --}}
                     </div>
                 </div>
@@ -46,60 +46,90 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            // Simpan referensi ke elemen loading
             const loadingSpinner =
-                '<div class="spinner-border text-primary spinner-border-sm text-center" role="status"><span class="sr-only">Loading...</span></div>';
+                '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
 
-            // Fungsi untuk memuat semua mata kuliah
-            function loadMatkul(query = '') {
-                $('.product-list ul').html(loadingSpinner);
+            function loadMatkul(query = '', page = 1) {
+                $('#matkul-list').html(loadingSpinner);
                 $.ajax({
                     url: '/api/matkul/getall-home',
                     type: 'GET',
                     data: {
-                        search: query
+                        search: query,
+                        page: page
                     },
                     success: function(response) {
                         $('#matkul-list').empty();
-                        if (response.length === 0) {
+
+                        if (response.data.length === 0) {
                             $('#matkul-list').html(`
-                                <div class="col-12">
-                                    <div class="text-center"><img class="img-fluid" style="height:200px;" src="{{ asset('frontend') }}/images/no-search-found.png">
-                                        <h3>Matakuliah tidak ditemukan</h3>
-                                    </div>
-                                </div>
-                            `);
+                            <div class="col-12 text-center">
+                                <img class="img-fluid" style="height:200px;" src="{{ asset('frontend') }}/images/no-search-found.png">
+                                <h3>Matakuliah tidak ditemukan</h3>
+                            </div>
+                        `);
                             return;
                         }
 
-                        response.forEach(matkul => {
+                        response.data.forEach(matkul => {
                             $('#matkul-list').append(`
-                                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                                    <div class="card match-height h-100 shadow-sm border-0">
-                                        <div class="card-body">
-                                            <i class="card-icon ti-book mb-4"></i>
-                                            <h3 class="card-title h5">${matkul.nama_matkul}</h3>
-                                            <p class="card-text">Dosen :   ${matkul.nama_dosen} </p>
-                                            <a href="/matkul/${matkul.id}" class="stretched-link" title="Lihat Detail"></a>
-                                        </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <i class="card-icon ti-book mb-4"></i>
+                                        <h3 class="card-title h5">${matkul.nama_matkul}</h3>
+                                        <p class="card-text">Dosen: ${matkul.nama_dosen ?? '-'}</p>
+                                        <a href="/matkul/${matkul.id}" class="stretched-link"></a>
                                     </div>
                                 </div>
-                            `);
+                            </div>
+                        `);
                         });
+
+                        // Pagination
+                        let paginationHTML =
+                            `<div class="col-12"><nav><ul class="pagination justify-content-center">`;
+                        if (response.prev_page_url) {
+                            paginationHTML +=
+                                `<li class="page-item"><a class="page-link" href="#" data-page="${response.current_page - 1}">&laquo;</a></li>`;
+                        }
+
+                        for (let i = 1; i <= response.last_page; i++) {
+                            paginationHTML += `<li class="page-item ${i === response.current_page ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>`;
+                        }
+
+                        if (response.next_page_url) {
+                            paginationHTML +=
+                                `<li class="page-item"><a class="page-link" href="#" data-page="${response.current_page + 1}">&raquo;</a></li>`;
+                        }
+
+                        paginationHTML += `</ul></nav></div>`;
+                        $('#matkul-list').append(paginationHTML);
                     },
                     error: function() {
-                        alert('Gagal memuat mata kuliah. Silakan coba lagi.');
+                        console.log('Gagal memuat mata kuliah.');
                     }
                 });
             }
 
-            // Panggil fungsi loadMatkul() saat halaman pertama kali dimuat
+            // Load pertama kali
             loadMatkul();
+
+            // Cari
             $('#search').on('input', function() {
-                const query = $(this).val(); // Ambil nilai input
-                loadMatkul(query); // Panggil fungsi dengan parameter pencarian
+                const query = $(this).val();
+                loadMatkul(query);
             });
 
+            // Handle klik halaman
+            $(document).on('click', '.pagination .page-link', function(e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                const query = $('#search').val();
+                loadMatkul(query, page);
+            });
         });
     </script>
 @endpush

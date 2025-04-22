@@ -54,7 +54,7 @@ class MatkulController extends Controller
             return $query->where('nama_matkul', 'like', '%' . $search . '%');
         });
 
-        $data = $matkul->get();
+        $data = $matkul->paginate(8);
         $data->map(function ($item) {
             $dosenNames = $item->dosen->pluck('name')->toArray();
             $item->nama_dosen = implode(', ', $dosenNames);
