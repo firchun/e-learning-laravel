@@ -40,25 +40,6 @@
     <!-- /topics -->
 
     <!-- call to action -->
-    <!-- call to action -->
-    <section class="section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 text-center d-lg-block d-none">
-                    <img src="{{ asset('frontend/') }}/images/cta-illustration.jpg" class="img-fluid"
-                        alt="Ilustrasi gamifikasi">
-                </div>
-                <div class="col-lg-8 text-lg-left text-center">
-                    <h2 class="mb-3">Sistem Pembelajaran Lebih Seru dengan Gamifikasi</h2>
-                    <p>Platform ini dirancang menggunakan pendekatan <strong>gamifikasi</strong>, yang menggabungkan elemen
-                        permainan seperti poin, lencana, dan tantangan agar proses belajar lebih menarik, interaktif, dan
-                        memotivasi.
-                        Cocok untuk semua gaya belajar!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /call to action -->
 @endsection
 @push('js')
     <script>

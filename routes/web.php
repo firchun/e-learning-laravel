@@ -30,6 +30,7 @@ Route::get('/dosen/cari', [PageController::class, 'cariDosen']);
 Route::get('/daftar-point', [App\Http\Controllers\PageController::class, 'point']);
 Route::get('/mahasiswa/cari', [PageController::class, 'cariMahasiwa']);
 Route::get('/api/matkul/getall', [MatkulController::class, 'getall']);
+Route::get('/matkul/{id}', [PageController::class, 'detailMatkul']);
 Route::get('/matkul-datatable', [MatkulController::class, 'getMatkulDataTable']);
 
 Auth::routes(['reset' => false]);

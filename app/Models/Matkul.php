@@ -19,6 +19,10 @@ class Matkul extends Model
     {
         return $this->belongsToMany(User::class, 'dosen_matkul', 'id_matkul', 'id_user');
     }
+    public function mahasiswa(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'matkul_mahasiswa', 'id_matkul', 'id_user');
+    }
     static function getMahasiswa($id)
     {
         $matkulMahasiswa = MatkulMahasiswa::where('id_matkul', $id)->count();

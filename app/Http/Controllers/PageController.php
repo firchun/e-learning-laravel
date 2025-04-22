@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DosenMatkul;
+use App\Models\Matkul;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,15 @@ class PageController extends Controller
             'title' => 'Homepage'
         ];
         return view('welcome', $data);
+    }
+    public function detailMatkul($id)
+    {
+        $matkul = Matkul::find($id);
+        $data = [
+            'title' => 'Detail Matakuliah',
+            'matkul' => $matkul
+        ];
+        return view('detail_matkul', $data);
     }
     public function dosen()
     {

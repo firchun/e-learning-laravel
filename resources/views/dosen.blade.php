@@ -10,7 +10,7 @@
                     placeholder="Cari Dosen">
             </div>
             <div class="row" id="dosen-list">
-                @foreach ($dosen as $index => $item)
+                @forelse ($dosen as $index => $item)
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm border-0 hover-shadow" style="transition: 0.3s;">
                             <div class="card-body">
@@ -20,7 +20,14 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-12">
+                        <div class="text-center"><img class="img-fluid" style="height:200px;"
+                                src="{{ asset('frontend') }}/images/no-search-found.png">
+                            <h3>Dosen tidak ditemukan</h3>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
