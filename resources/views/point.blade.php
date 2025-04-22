@@ -4,10 +4,10 @@
     <!-- banner -->
     <section class="section pb-0">
         <div class="container ">
-            <h3 class="mb-4">Daftar Dosen</h3>
+            <h3 class="mb-4">Point Mahasiswa</h3>
             <div class="search-wrapper mb-3">
                 <input type="text" name="search" id="search" class="form-control form-control-lg"
-                    placeholder="Cari Dosen">
+                    placeholder="Cari Mahasiswa">
             </div>
             <div class="row" id="dosen-list">
                 @foreach ($dosen as $index => $item)
@@ -15,8 +15,9 @@
                         <div class="card h-100 shadow-sm border-0 hover-shadow" style="transition: 0.3s;">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $item->name }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">NIP: {{ $item->identity }}</h6>
-                                <p class="card-text badge badge-danger">Mengampu {{ $item->total_matkul }} matakuliah.</p>
+                                <h6 class="card-subtitle mb-2 text-muted">NPM: {{ $item->identity }}</h6>
+                                <p class="card-text"><span class=" badge badge-danger"> {{ $item->total_point }}</span>
+                                    Point</p>
                             </div>
                         </div>
                     </div>
@@ -31,7 +32,7 @@
             $('#search').on('input', function() {
                 const query = $(this).val();
                 $.ajax({
-                    url: '/dosen/cari',
+                    url: '/point/cari',
                     type: 'GET',
                     data: {
                         search: query
@@ -45,8 +46,8 @@
                                     <div class="card h-100 shadow-sm border-0 hover-shadow" style="transition: 0.3s;">
                                         <div class="card-body">
                                             <h5 class="card-title">${item.name}</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted">NIP: ${item.identity}</h6>
-                                            <p class="card-text badge badge-danger">Mengampu ${item.total_matkul} matakuliah.</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">NPM: ${item.identity}</h6>
+                                            <p class="card-text "><span class="badge badge-danger"> ${item.total_point} Point <span></p>
                                         </div>
                                     </div>
                                 </div>`;
@@ -55,7 +56,7 @@
                             html =
                                 `<div class="col-12">
                                     <div class="text-center"><img class="img-fluid" style="height:200px;" src="{{ asset('frontend') }}/images/no-search-found.png">
-                                        <h3>Dosen tidak ditemukan</h3>
+                                        <h3>Mahasiswa tidak ditemukan</h3>
                                     </div>
                                 </div>`;
                         }

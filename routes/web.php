@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DosenMatkulController;
 use App\Http\Controllers\MateriMatkulController;
 use App\Http\Controllers\MatkulController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatBelajarController;
@@ -24,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
+Route::get('/daftar-dosen', [App\Http\Controllers\PageController::class, 'dosen']);
+Route::get('/dosen/cari', [PageController::class, 'cariDosen']);
+Route::get('/daftar-point', [App\Http\Controllers\PageController::class, 'point']);
+Route::get('/mahasiswa/cari', [PageController::class, 'cariMahasiwa']);
 Route::get('/api/matkul/getall', [MatkulController::class, 'getall']);
 Route::get('/matkul-datatable', [MatkulController::class, 'getMatkulDataTable']);
 

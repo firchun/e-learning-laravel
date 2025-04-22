@@ -82,7 +82,7 @@
                             $('#matkul-list').html(`
                                 <div class="col-12">
                                     <div class="text-center"><img class="img-fluid" style="height:200px;" src="{{ asset('frontend') }}/images/no-search-found.png">
-                                        <h3>No Search Found</h3>
+                                        <h3>Matakuliah tidak ditemukan</h3>
                                     </div>
                                 </div>
                             `);

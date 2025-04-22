@@ -28,7 +28,6 @@
 </head>
 
 <body>
-
     <header class="sticky-top navigation">
         <div class=container>
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
@@ -38,9 +37,18 @@
                     <i class="ti-align-right h4 text-dark"></i></button>
                 <div class="collapse navbar-collapse text-center" id=navigation>
                     <ul class="navbar-nav mx-auto align-items-center">
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="list.html">Dosen</a></li>
-                        <li class="nav-item"><a class="nav-link" href="list.html">Point</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('/') ? 'text-danger' : '' }}"
+                                href="{{ url('/') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('daftar-dosen') ? 'text-danger' : '' }}"
+                                href="{{ url('daftar-dosen') }}">Dosen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('daftar-point') ? 'text-danger' : '' }}"
+                                href="{{ url('daftar-point') }}">Point</a>
+                        </li>
                     </ul>
                     @if (Auth::check())
                         <a href="{{ route('home') }}" class="btn btn-sm btn-primary ml-lg-4">Dashboard</a>
@@ -53,7 +61,27 @@
         </div>
     </header>
     @yield('content')
-
+    <!-- call to action -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-center d-lg-block d-none">
+                    <img src="{{ asset('frontend/') }}/images/cta-illustration.jpg" class="img-fluid"
+                        alt="Ilustrasi gamifikasi">
+                </div>
+                <div class="col-lg-8 text-lg-left text-center">
+                    <h2 class="mb-3">Sistem Pembelajaran Lebih Seru dengan Gamifikasi</h2>
+                    <p>Platform ini dirancang menggunakan pendekatan <strong>gamifikasi</strong>, yang menggabungkan
+                        elemen
+                        permainan seperti poin, lencana, dan tantangan agar proses belajar lebih menarik, interaktif,
+                        dan
+                        memotivasi.
+                        Cocok untuk semua gaya belajar!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /call to action -->
 
     <footer>
         <div class="container">
@@ -66,18 +94,18 @@
                     </ul>
                 </div>
                 <div class="col-lg-4 text-center mb-4 mb-lg-0">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="{{ url('/') }}">
                         <img class="img-fluid" src="{{ asset('img/') }}/logo.png" style="width: 150px;" alt="">
                     </a>
                 </div>
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <ul class="list-inline social-icons text-lg-right text-center">
                         <li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="ti-twitter-alt"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="ti-github"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="ti-linkedin"></i></a></li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
             <div class="py-4 text-center">
                 <small class="text-light">Copyright © {{ date('Y') }} </small>
