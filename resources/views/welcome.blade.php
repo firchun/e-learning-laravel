@@ -6,7 +6,9 @@
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-7 text-center text-lg-left">
-                    <h1 class="mb-4">Belajar Seru dengan Pendekatan Gamifikasi</h1>
+                    <h1 class="mb-4">Belajar Seru dengan Pendekatan <span
+                            style="background-color: red;color:white;">Gamifikasi</span>
+                    </h1>
                     <p class="mb-4">Jelajahi berbagai mata kuliah dengan sistem pembelajaran interaktif berbasis
                         gamifikasi. Kumpulkan poin, raih lencana, dan capai level baru sambil mengembangkan potensimu di era
                         digital. Mulai petualangan belajarmu sekarang!</p>
@@ -52,7 +54,7 @@
             function loadMatkul(query = '') {
                 $('.product-list ul').html(loadingSpinner);
                 $.ajax({
-                    url: '/api/matkul/getall',
+                    url: '/api/matkul/getall-home',
                     type: 'GET',
                     data: {
                         search: query
@@ -77,7 +79,7 @@
                                         <div class="card-body">
                                             <i class="card-icon ti-book mb-4"></i>
                                             <h3 class="card-title h5">${matkul.nama_matkul}</h3>
-                                            <p class="card-text">Kode: ${matkul.kode ?? '-'}</p>
+                                            <p class="card-text">Dosen :   ${matkul.nama_dosen} </p>
                                             <a href="/matkul/${matkul.id}" class="stretched-link" title="Lihat Detail"></a>
                                         </div>
                                     </div>

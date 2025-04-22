@@ -70,7 +70,8 @@
                         alt="Ilustrasi gamifikasi">
                 </div>
                 <div class="col-lg-8 text-lg-left text-center">
-                    <h2 class="mb-3">Sistem Pembelajaran Lebih Seru dengan Gamifikasi</h2>
+                    <h2 class="mb-3">Sistem Pembelajaran Lebih Seru dengan <span
+                            style="background-color: red;color:white;">Gamifikasi</span></h2>
                     <p>Platform ini dirancang menggunakan pendekatan <strong>gamifikasi</strong>, yang menggabungkan
                         elemen
                         permainan seperti poin, lencana, dan tantangan agar proses belajar lebih menarik, interaktif,

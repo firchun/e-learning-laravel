@@ -47,6 +47,22 @@ class MatkulController extends Controller
 
         return response()->json($data);
     }
+    public function getAllHome(Request $request)
+    {
+        $search = $request->query('search');
+        $matkul = Matkul::when($search, function ($query, $search) {
+            return $query->where('nama_matkul', 'like', '%' . $search . '%');
+        });
+
+        $data = $matkul->get();
+        $data->map(function ($item) {
+            $dosenNames = $item->dosen->pluck('name')->toArray();
+            $item->nama_dosen = implode(', ', $dosenNames);
+            return $item;
+        });
+
+        return response()->json($data);
+    }
     public function getMatkulDataTable()
     {
         $matkul = Matkul::orderByDesc('id');

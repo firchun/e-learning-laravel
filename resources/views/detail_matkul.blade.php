@@ -25,7 +25,7 @@
                         <small
                             class="p-1 border border-danger rounded mx-1">{{ $matkul->mahasiswa->pluck('name')->join(', ') }}</small>
                     @else
-                        Belum ada dosen pengampu.
+                        Belum ada Mahasiswa
                     @endif
                 </div>
             </div>
