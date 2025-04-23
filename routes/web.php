@@ -28,7 +28,7 @@ Route::get('/', [App\Http\Controllers\PageController::class, 'index']);
 Route::get('/daftar-dosen', [App\Http\Controllers\PageController::class, 'dosen']);
 Route::get('/dosen/cari', [PageController::class, 'cariDosen']);
 Route::get('/daftar-point', [App\Http\Controllers\PageController::class, 'point']);
-Route::get('/mahasiswa/cari', [PageController::class, 'cariMahasiwa']);
+Route::get('/mahasiswa/cari', [PageController::class, 'cariMahasiswa']);
 Route::get('/api/matkul/getall', [MatkulController::class, 'getall']);
 Route::get('/api/matkul/getall-home', [MatkulController::class, 'getallHome']);
 Route::get('/matkul/{id}', [PageController::class, 'detailMatkul']);

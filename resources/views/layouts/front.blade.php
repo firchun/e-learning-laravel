@@ -47,7 +47,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('daftar-point') ? 'text-danger' : '' }}"
-                                href="{{ url('daftar-point') }}">Point</a>
+                                href="{{ url('daftar-point') }}">Leaderboard</a>
                         </li>
                     </ul>
                     @if (Auth::check())

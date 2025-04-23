@@ -36,8 +36,12 @@ class PageController extends Controller
     public function point()
     {
         $data = [
-            'title' => 'Point Mahasiswa',
-            'dosen' => User::where('role', 'Mahasiswa')->withCount(['riwayat as total_point' => function ($q) {}])->get(),
+            'title' => 'Leaderboard',
+            'mahasiswa' => User::where('role', 'Mahasiswa')
+                ->withCount(['riwayat as total_point' => function ($q) {}])
+                ->orderByDesc('total_point')
+                ->take(10)
+                ->get(),
         ];
         return view('point', $data);
     }
@@ -61,7 +65,7 @@ class PageController extends Controller
     {
         $query = $request->get('search');
 
-        $dosen = User::where('role', 'dosen')
+        $mahasiswa = User::where('role', 'Mahasiswa')
             ->where(function ($q) use ($query) {
                 $q->where('name', 'like', '%' . $query . '%')
                     ->orWhere('identity', 'like', '%' . $query . '%');
@@ -69,8 +73,10 @@ class PageController extends Controller
             ->withCount(['riwayat as total_point' => function ($q) {
                 // Optional: tambahan filter bisa dimasukkan di sini jika perlu
             }])
+            ->orderByDesc('total_point')
+            ->take(10)
             ->get();
 
-        return response()->json($dosen);
+        return response()->json($mahasiswa);
     }
 }

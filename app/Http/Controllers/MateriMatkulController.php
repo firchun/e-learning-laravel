@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MateriMatkul;
 use App\Models\Matkul;
+use App\Models\Point;
 use App\Models\RiwayatBelajar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -106,11 +107,17 @@ class MateriMatkulController extends Controller
             'id_user' => $userId,
         ];
 
+        $point = Point::tambah([
+            'id_user' => $request->id_user,
+            'point' => 5,
+        ]);
+
         $riwayat = RiwayatBelajar::create($data);
 
         return response()->json([
             'message' => 'Berhasil menambahkan progress belajar',
-            'riwayat' => $riwayat
+            'riwayat' => $riwayat,
+            'point' => $point
         ], 201);
     }
 

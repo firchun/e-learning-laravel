@@ -1,32 +1,31 @@
 @extends('layouts.front')
 
 @section('content')
-    <!-- banner -->
     <section class="section pb-0">
-        <div class="container ">
-            <h3 class="mb-4">Point Mahasiswa</h3>
+        <div class="container">
+            <h3 class="mb-4">Leaderboard</h3>
             <div class="search-wrapper mb-3">
                 <input type="text" name="search" id="search" class="form-control form-control-lg"
                     placeholder="Cari Mahasiswa">
             </div>
-            <div class="row justify-content-center" id="dosen-list">
-                @forelse ($dosen as $index => $item)
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm border-0 hover-shadow" style="transition: 0.3s;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $item->name }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">NPM: {{ $item->identity }}</h6>
-                                <p class="card-text"><span class=" badge badge-danger"> {{ $item->total_point }}</span>
-                                    Point</p>
+            <div class="list-group" id="dosen-list">
+                @forelse ($mahasiswa as $index => $item)
+                    <div
+                        class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger">
+                        <div class="d-flex align-items-center">
+                            <h4 class="mb-0 mr-3 text-primary" style="width: 40px;">{{ $index + 1 }}</h4>
+                            <div>
+                                <h5 class="mb-1">{{ $item->name }}</h5>
+                                <small class="text-muted">NPM: {{ $item->identity }}</small>
                             </div>
                         </div>
+                        <span class="badge badge-danger badge-pill p-2 px-3">{{ $item->total_point }} Point</span>
                     </div>
                 @empty
-                    <div class="col-12">
-                        <div class="text-center"><img class="img-fluid" style="height:200px;"
-                                src="{{ asset('frontend') }}/images/no-search-found.png">
-                            <h3>Mahasiswa tidak ditemukan</h3>
-                        </div>
+                    <div class="text-center">
+                        <img class="img-fluid" style="height:200px;"
+                            src="{{ asset('frontend') }}/images/no-search-found.png">
+                        <h3>Mahasiswa tidak ditemukan</h3>
                     </div>
                 @endforelse
             </div>
@@ -39,39 +38,44 @@
             $('#search').on('input', function() {
                 const query = $(this).val();
                 $.ajax({
-                    url: '/point/cari',
+                    url: '/mahasiswa/cari',
                     type: 'GET',
                     data: {
                         search: query
                     },
                     success: function(response) {
                         let html = '';
+                        let medal = '';
+                        // if (index === 0) medal = '🥇';
+                        // else if (index === 1) medal = '🥈';
+                        // else if (index === 2) medal = '🥉';
                         if (response.length > 0) {
                             response.forEach((item, index) => {
                                 html += `
-                                <div class="col-md-4 mb-4">
-                                    <div class="card h-100 shadow-sm border-0 hover-shadow" style="transition: 0.3s;">
-                                        <div class="card-body">
-                                            <h5 class="card-title">${item.name}</h5>
-                                            <h6 class="card-subtitle mb-2 text-muted">NPM: ${item.identity}</h6>
-                                            <p class="card-text "><span class="badge badge-danger"> ${item.total_point} Point <span></p>
-                                        </div>
-                                    </div>
-                                </div>`;
+                              <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger">
+                                  <div class="d-flex align-items-center">
+                                      <h4 class="mb-0 mr-3 text-primary" style="width: 40px;">${index + 1} </h4>
+                                      <div>
+                                          <h5 class="mb-1">${item.name}</h5>
+                                          <small class="text-muted">NPM: ${item.identity}</small>
+                                      </div>
+                                  </div>
+                                  <span class="badge badge-danger badge-pill p-2 px-3">${item.total_point} Point</span>
+                              </div>
+                          `;
                             });
                         } else {
-                            html =
-                                `<div class="col-12">
-                                    <div class="text-center"><img class="img-fluid" style="height:200px;" src="{{ asset('frontend') }}/images/no-search-found.png">
-                                        <h3>Mahasiswa tidak ditemukan</h3>
-                                    </div>
-                                </div>`;
+                            html = `
+                          <div class="text-center">
+                              <img class="img-fluid" style="height:200px;" src="{{ asset('frontend') }}/images/no-search-found.png">
+                              <h3>Mahasiswa tidak ditemukan</h3>
+                          </div>`;
                         }
 
                         $('#dosen-list').html(html);
                     },
                     error: function() {
-                        console.log('Gagal memuat data dosen.');
+                        console.log('Gagal memuat data leaderboard.');
                     }
                 });
             });
