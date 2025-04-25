@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatBelajarController;
+use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\UjianController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -83,8 +84,14 @@ Route::middleware(['auth:web'])->group(function () {
     Route::delete('/api/matkul/{id}/delete-mahasiswa', [MatkulController::class, 'destroyMahasiswa']);
 });
 Route::middleware(['auth:web', 'role:Admin,Dosen'])->group(function () {
-    //matkul managemen
+    //semester managemen
 
+    Route::get('semester', [SemesterController::class, 'index'])->name('semester');
+    Route::get('semesters/datatable', [SemesterController::class, 'getDatatable'])->name('semesters.datatable');
+    Route::post('semesters/store', [SemesterController::class, 'store'])->name('semesters.store');
+    Route::put('semesters/update/{id}', [SemesterController::class, 'update'])->name('semesters.update');
+    Route::get('semesters/show/{id}', [SemesterController::class, 'show'])->name('semesters.show');
+    Route::delete('semesters/{id}', [SemesterController::class, 'destroy'])->name('semesters.delete');
     //api 
     Route::post('/api/matkul/create', [MatkulController::class, 'store']);
     Route::put('/api/matkul/{id}/update', [MatkulController::class, 'update']);

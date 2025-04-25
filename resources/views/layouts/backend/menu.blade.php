@@ -107,6 +107,15 @@
                             {{ Auth::user()->role }}</span>
                     </a>
                 </li>
+                @if (Auth::user()->role == 'Admin')
+                    <li>
+                        <a href="{{ route('semester') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('semester') ? 'active' : '' }}">
+                            <span class="micon bi bi-house"></span><span class="mtext">Semester
+                            </span>
+                        </a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ route('matkul') }}"
                         class="dropdown-toggle no-arrow {{ request()->is('matkul*') ? 'active' : '' }}">

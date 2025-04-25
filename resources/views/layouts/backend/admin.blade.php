@@ -28,7 +28,9 @@
         href="{{ asset('backend_theme') }}/src/plugins/datatables/css/responsive.bootstrap4.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend_theme') }}/vendors/styles/style.css" />
 
-
+    @php
+        $semester = \Illuminate\Support\Facades\DB::table('semester')->where('status', 1)->first();
+    @endphp
     <script>
         window.dataLayer = window.dataLayer || [];
 

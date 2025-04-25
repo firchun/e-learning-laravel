@@ -25,6 +25,9 @@ class MatkulController extends Controller
         $matkul = Matkul::when($search, function ($query, $search) {
             return $query->where('nama_matkul', 'like', '%' . $search . '%');
         });
+        if ($this->semester) {
+            $matkul->where('semester', $this->semester->semester);
+        }
         if (Auth::check() && Auth::user()->role == 'Dosen') {
             $matkul->join('dosen_matkul', 'matkul.id', '=', 'dosen_matkul.id_matkul')
                 ->where('dosen_matkul.id_user', Auth::id())

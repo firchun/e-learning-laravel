@@ -50,4 +50,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(RiwayatBelajar::class, 'id_user');
     }
+    public function point()
+    {
+        return $this->hasMany(Point::class, 'id_user');
+    }
 }

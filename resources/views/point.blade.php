@@ -11,7 +11,7 @@
             <div class="list-group" id="dosen-list">
                 @forelse ($mahasiswa as $index => $item)
                     <div
-                        class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger">
+                        class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger mb-2">
                         <div class="d-flex align-items-center">
                             <h4 class="mb-0 mr-3 text-primary" style="width: 40px;">{{ $index + 1 }}</h4>
                             <div>
@@ -52,7 +52,7 @@
                         if (response.length > 0) {
                             response.forEach((item, index) => {
                                 html += `
-                              <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger">
+                              <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger mb-2">
                                   <div class="d-flex align-items-center">
                                       <h4 class="mb-0 mr-3 text-primary" style="width: 40px;">${index + 1} </h4>
                                       <div>
