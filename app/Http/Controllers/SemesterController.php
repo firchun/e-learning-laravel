@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Semester;
+use App\Models\SemesterMatkul;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -25,11 +26,26 @@ class SemesterController extends Controller
             })
             ->addColumn('action', function ($row) {
                     return '
+                    <button class="btn btn-sm btn-success matkul-semester" data-id="' . $row->id . '">Matkul</button>
                     <button class="btn btn-sm btn-warning edit-semester" data-id="' . $row->id . '">Edit</button>
                     <button class="btn btn-sm btn-danger delete-semester" data-id="' . $row->id . '">Hapus</button>
                 ';
             })
             ->rawColumns(['action', 'status'])
+            ->make(true);
+    }
+    public function getMatkulDatatable($id_semester)
+    {
+        $data = SemesterMatkul::where('id_semester',$id_semester)->with('matkul');
+
+        return DataTables::of($data)
+           
+            ->addColumn('action', function ($row) {
+                    return '
+                    <button class="btn btn-sm btn-danger delete-matkul" data-id="' . $row->id . '">Hapus</button>
+                ';
+            })
+            ->rawColumns(['action'])
             ->make(true);
     }
     public function update(Request $request, $id)
@@ -83,6 +99,20 @@ class SemesterController extends Controller
 
         return response()->json(['message' => 'Semester created successfully!']);
     }
+    public function storeMatkul(Request $request)
+        {
+            $request->validate([
+                'id_semester' => 'required|exists:semester,id',
+                'id_matkul' => 'required|exists:matkul,id',
+            ]);
+
+            SemesterMatkul::create([
+                'id_semester' => $request->id_semester,
+                'id_matkul' => $request->id_matkul,
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Matakuliah berhasil ditambahkan.']);
+        }
     private function generateSemesterCode($tahun_ajaran, $semester)
     {
         // Tentukan angka untuk semester: 1 untuk Ganjil, 2 untuk Genap
@@ -100,6 +130,12 @@ class SemesterController extends Controller
     {
         $semester = Semester::findOrFail($id);
         $semester->delete();
+        return response()->json(['success' => true]);
+    }
+    public function destroyMatkul($id)
+    {
+        $Matkul = SemesterMatkul::findOrFail($id);
+        $Matkul->delete();
         return response()->json(['success' => true]);
     }
 }

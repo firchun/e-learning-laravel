@@ -9,6 +9,7 @@
                     placeholder="Cari Mahasiswa">
             </div>
             <div class="list-group" id="dosen-list">
+                {{-- {{dd($mahasiswa) }} --}}
                 @forelse ($mahasiswa as $index => $item)
                     <div
                         class="list-group-item d-flex justify-content-between align-items-center flex-wrap rounded shadow border border-danger mb-2">

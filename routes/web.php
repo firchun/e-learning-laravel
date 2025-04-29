@@ -38,6 +38,8 @@ Route::get('/matkul-datatable', [MatkulController::class, 'getMatkulDataTable'])
 Auth::routes(['reset' => false]);
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // pencapaian
+    Route::get('/pencapaian', [App\Http\Controllers\PageController::class, 'pencapaian'])->name('pencapaian');
 
     Route::get('/matkul', [MatkulController::class, 'index'])->name('matkul');
     Route::get('/matkul/materi/{kode_matkul}', [MateriMatkulController::class, 'materi'])->name('matkul.materi');
@@ -88,10 +90,13 @@ Route::middleware(['auth:web', 'role:Admin,Dosen'])->group(function () {
 
     Route::get('semester', [SemesterController::class, 'index'])->name('semester');
     Route::get('semesters/datatable', [SemesterController::class, 'getDatatable'])->name('semesters.datatable');
+    Route::get('semesters-matkul/datatable/{id_semester}', [SemesterController::class, 'getMatkulDatatable'])->name('semesters-matkul.datatable');
     Route::post('semesters/store', [SemesterController::class, 'store'])->name('semesters.store');
     Route::put('semesters/update/{id}', [SemesterController::class, 'update'])->name('semesters.update');
     Route::get('semesters/show/{id}', [SemesterController::class, 'show'])->name('semesters.show');
     Route::delete('semesters/{id}', [SemesterController::class, 'destroy'])->name('semesters.delete');
+    Route::delete('semesters-matkul/{id}', [SemesterController::class, 'destroyMatkul'])->name('semesters-matkul.delete');
+    Route::post('/semesters-matkul/store', [SemesterController::class, 'storeMatkul'])->name('semesters-matkul.store');
     //api 
     Route::post('/api/matkul/create', [MatkulController::class, 'store']);
     Route::put('/api/matkul/{id}/update', [MatkulController::class, 'update']);

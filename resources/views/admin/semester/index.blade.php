@@ -120,6 +120,55 @@
             </div>
         </div>
     </div>
+    <!-- Modal matkul Semester -->
+    <div class="modal fade" id="matkulSemesterModal" tabindex="-1" aria-labelledby="editSemesterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Matakuliah</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                       <div class="mb-3">
+                           <form id="matkulSemesterForm" method="POST" action="{{ route('semesters-matkul.store') }}">
+                               @csrf
+                               <input type="hidden" id="id_semester" name="id_semester">
+                               <div class="form-group">
+                                   <label>Pilih Matakuliah</label>
+                                   <select class="form-control" name="id_matkul">
+                                       @foreach (App\Models\Matkul::all() as $item )
+                                           <option value="{{$item->id}}">{{$item->nama_matkul}}</option>
+                                       @endforeach
+                                   </select>
+                               </div>
+                               <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i> Tambah Matakuliah</button>
+                           </form>
+                       </div>
+                       <hr>
+                        <table class="table table-hover table-sm display" id="datatable-matkul" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Matkul</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Matkul</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                   </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('js')
     <script>
@@ -181,6 +230,73 @@
                 });
             });
             // Edit button click
+            $(document).on('click', '.matkul-semester', function() {
+                var id = $(this).data('id');
+                $.get('/semesters/show/' + id, function(data) {
+                    $('#id_semester').val( id);
+                    $('#matkulSemesterModal').modal('show');
+                    if ($.fn.DataTable.isDataTable('#datatable-matkul')) {
+                            $('#datatable-matkul').DataTable().clear().destroy();
+                        }
+                    var table = $('#datatable-matkul').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ajax: `/semesters-matkul/datatable/${id}`,
+                        columns: [{
+                                data: 'id',
+                                name: 'id'
+                            },
+                            {
+                                data: 'matkul.nama_matkul',
+                                name: 'matkul.nama_matkul'
+                            },
+                            {
+                                data: 'action',
+                                name: 'action',
+                                orderable: false,
+                                searchable: false
+                            }
+                        ]
+                    });
+                    $('#matkulSemesterForm').on('submit', function(e) {
+                        e.preventDefault();
+
+                        $.ajax({
+                            url: $(this).attr('action'), 
+                            type: 'POST',
+                            data: $(this).serialize(),
+                            success: function(response) {
+                                $('#matkulSemesterForm')[0].reset();
+                                $('#datatable-matkul').DataTable().ajax.reload();
+                                // alert('Matakuliah berhasil ditambahkan.');
+                            },
+                            error: function(xhr) {
+                                toastr.error('Gagal menyimpan data. Pastikan semua field terisi dengan benar.');
+                            }
+                        });
+                    });
+                     // Delete button click
+                    $(document).on('click', '.delete-matkul', function() {
+                        if (confirm('Yakin ingin menghapus semester ini?')) {
+                            var id = $(this).data('id');
+                            $.ajax({
+                                url: '/semesters-matkul/' + id,
+                                type: 'DELETE',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function(response) {
+                                    $('#datatable-matkul').DataTable().ajax.reload();
+                                },
+                                error: function() {
+                                    toastr.error('Gagal menghapus semester.');
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+            // Edit button click
             $(document).on('click', '.edit-semester', function() {
                 var id = $(this).data('id');
                 $.get('/semesters/show/' + id, function(data) {
@@ -232,6 +348,7 @@
                     });
                 }
             });
+           
         });
     </script>
 @endpush

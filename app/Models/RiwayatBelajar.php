@@ -16,6 +16,10 @@ class RiwayatBelajar extends Model
     {
         return $this->belongsTo(Matkul::class, 'id_matkul');
     }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_matkul');
+    }
     public function materi(): BelongsTo
     {
         return $this->belongsTo(MateriMatkul::class, 'id_materi');

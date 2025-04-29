@@ -6,6 +6,8 @@ use App\Models\MateriMatkul;
 use App\Models\Matkul;
 use App\Models\Point;
 use App\Models\RiwayatBelajar;
+use App\Models\Setting;
+use Database\Seeders\SettingSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -107,9 +109,11 @@ class MateriMatkulController extends Controller
             'id_user' => $userId,
         ];
 
+        $jumlah_point = Setting::first();
+
         $point = Point::tambah([
-            'id_user' => $request->id_user,
-            'point' => 5,
+            'id_user' => $userId,
+            'point' => $jumlah_point->jumlah_point ?? 5,
         ]);
 
         $riwayat = RiwayatBelajar::create($data);

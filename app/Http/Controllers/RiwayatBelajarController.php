@@ -12,13 +12,13 @@ class RiwayatBelajarController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'Pencapaian Belajar'
+            'title' => 'Riwayat Belajar'
         ];
         return view('admin.riwayat_belajar.index', $data);
     }
     public function getRiwayatDataTable(Request $request)
     {
-        $riwayat = RiwayatBelajar::with(['matkul', 'materi'])->orderByDesc('id');
+        $riwayat = RiwayatBelajar::with(['matkul', 'materi','user'])->orderByDesc('id');
         if (Auth::user()->role == 'Mahasiswa') {
             $riwayat->where('id_user', Auth::id());
         }

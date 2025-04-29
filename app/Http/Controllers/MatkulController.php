@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Matkul;
 use App\Models\MatkulMahasiswa;
+use App\Models\SemesterMatkul;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -26,7 +27,10 @@ class MatkulController extends Controller
             return $query->where('nama_matkul', 'like', '%' . $search . '%');
         });
         if ($this->semester) {
-            $matkul->where('semester', $this->semester->semester);
+            $matkul->where('semester', $this->semester->semester)
+                   ->whereHas('semester_matkul', function ($query) {
+                       $query->where('id_semester', $this->semester->id);
+                   });
         }
         if (Auth::check() && Auth::user()->role == 'Dosen') {
             $matkul->join('dosen_matkul', 'matkul.id', '=', 'dosen_matkul.id_matkul')
@@ -111,8 +115,9 @@ class MatkulController extends Controller
         ]);
 
         $matkul = MatkulMahasiswa::where('id_matkul', $validated['id_matkul'])->where('id_user', Auth::id())->first();
+        $semester = SemesterMatkul::where('id_matkul', $validated['id_matkul'])->where('id_semester',$this->semester->id)->first();
 
-        if (!$matkul) {
+        if (!$matkul || $semester) {
             // Menambahkan data jika belum ada
             MatkulMahasiswa::create([
                 'id_matkul' => $validated['id_matkul'],

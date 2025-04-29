@@ -28,4 +28,8 @@ class Matkul extends Model
         $matkulMahasiswa = MatkulMahasiswa::where('id_matkul', $id)->count();
         return $matkulMahasiswa ?? 0;
     }
+    public function semester_matkul()
+    {
+        return $this->hasMany(SemesterMatkul::class, 'id_matkul');
+    }
 }

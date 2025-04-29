@@ -123,6 +123,15 @@
                         </span>
                     </a>
                 </li>
+                @if(Auth::user()->role == 'Mahasiswa')
+                <li>
+                    <a href="{{ route('pencapaian') }}"
+                        class="dropdown-toggle no-arrow {{ request()->is('pencapaian*') ? 'active' : '' }}">
+                        <span class="micon bi bi-star"></span><span class="mtext">Pencapaian
+                        </span>
+                    </a>
+                </li>
+                @endif
                 <li>
                     <a href="{{ route('riwayat-belajar') }}"
                         class="dropdown-toggle no-arrow {{ request()->is('riwayat-belajar*') ? 'active' : '' }}">

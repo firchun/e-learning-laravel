@@ -16,4 +16,8 @@ class MatkulMahasiswa extends Model
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+    public function matkul(): BelongsTo
+    {
+        return $this->belongsTo(Matkul::class, 'id_matkul');
+    }
 }

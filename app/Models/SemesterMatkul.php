@@ -18,4 +18,8 @@ class SemesterMatkul extends Model
     {
         return $this->belongsTo(Matkul::class, 'id_matkul');
     }
+    public function semester_matkul()
+    {
+        return $this->hasMany(SemesterMatkul::class, 'id_matkul');
+    }
 }

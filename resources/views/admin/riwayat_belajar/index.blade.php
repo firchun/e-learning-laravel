@@ -10,6 +10,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            @if(Auth::user()->role != 'Mahasiswa')
+                                <th>Mahasiswa</th>
+                            @endif
                             <th>Matakuliah</th>
                             <th>Materi</th>
                             <th>Tanggal</th>
@@ -19,6 +22,9 @@
                     <tfoot>
                         <tr>
                             <th>ID</th>
+                            @if(Auth::user()->role != 'Mahasiswa')
+                                <th>Mahasiswa</th>
+                            @endif
                             <th>Matakuliah</th>
                             <th>Materi</th>
                             <th>Tanggal</th>
@@ -41,6 +47,12 @@
                         data: 'id',
                         name: 'id'
                     },
+                    @if(Auth::user()->role != 'Mahasiswa')
+                    {
+                        data: 'user.name',
+                        name: 'user.name'
+                    },
+                    @endif
                     {
                         data: 'matkul.nama_matkul',
                         name: 'matkul.nama_matkul'
